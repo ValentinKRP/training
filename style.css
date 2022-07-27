@@ -1,0 +1,31 @@
+.proddetails ul{
+    list-style-type:none;
+  
+}
+.proditems{
+    list-style-type: none;
+    width: 100%;
+ 
+   
+}
+.proditem{
+    width: 60%;
+    height: 10%;
+    display: flex;
+    background-color: darkorchid;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+   
+}
+.proddetails{
+    flex-grow: 1;
+}
+.addbutton{
+    margin-right: 15px;
+}
+.prodimage img {
+width: 50%;
+
+ 
+}
