@@ -1,10 +1,39 @@
 <?php
 include 'common.php';
 
+session_start();
+
+
 $conn = connectDB();
 $stmt = $conn->prepare('SELECT * from products');
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if (isset($_POST['add'])) {
+    if (isset($_SESSION['cart'])) {
+        $product_ids = array_column($_SESSION['cart'], 'product_id');
+
+        if (in_array($_POST['product_id'], $product_ids)) {
+            echo "<script>alert('This product already in the cart!')</script>";
+        } else {
+            $count = count($_SESSION['cart']);
+            $product = array(
+                'product_id' => $_POST['product_id']
+            );
+            $_SESSION['cart'][$count] = $product;
+            $product_ids = array_column($_SESSION['cart'], 'product_id');
+
+        }
+    } else {
+        $product = array(
+            'product_id' => $_POST['product_id']
+        );
+        $_SESSION['cart'][0] = $product;
+        $product_ids = array_column($_SESSION['cart'], 'product_id');
+    }
+    print_r($_SESSION['cart']);
+}
+
 
 
 ?>
@@ -24,27 +53,55 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <h1>PRODUCTS</h1>
     <div class="container">
         <ul class="proditems">
-            <?php foreach ($result as $r): ?>
-                <li>
-                    <form action="index.php">
-                        <div class="proditem">
-                            <div class="prodimage">
-                                <img src="uploads/<?= $r['product_image'] ?>">
-                            </div>
-                            <div class="proddetails">
-                                <ul>
-                                    <li>Title: <?= $r['title'] ?></li>
-                                    <li>Description: <?= $r['description'] ?></li>
-                                    <li>Price: <?= $r['price'] ?>$ </li>
-                                </ul>
-                            </div>
-                            <div class="addbutton">
-                                <button type="submit" name="add">ADD</button>
-                            </div>
+            <?php foreach ($result as $r) : ?>
+                <?php if (isset($_SESSION['cart']) && isset($_POST['add'])) : ?>
+                    <?php if (!in_array($r['product_id'], $product_ids)) : ?>
+                        <li>
+                            <form action="index.php" method="POST">
+                                <div class="proditem">
+                                    <div class="prodimage">
+                                        <img src="uploads/<?= $r['product_image'] ?>">
+                                    </div>
+                                    <div class="proddetails">
+                                        <ul>
+                                            <li>Title: <?= $r['title'] ?></li>
+                                            <li>Description: <?= $r['description'] ?></li>
+                                            <li>Price: <?= $r['price'] ?>$ </li>
+                                        </ul>
+                                    </div>
+                                    <div class="addbutton">
+                                        <button type="submit" name="add">ADD</button>
+                                        <input type="hidden" name="product_id" value="<?= $r['product_id'] ?>">
+                                    </div>
 
-                        </div>
-                    </form>
-                </li>
+                                </div>
+                            </form>
+                        </li>
+                    <?php endif; ?>
+
+                <?php else : ?>
+                    <li>
+                        <form action="index.php" method="POST">
+                            <div class="proditem">
+                                <div class="prodimage">
+                                    <img src="uploads/<?= $r['product_image'] ?>">
+                                </div>
+                                <div class="proddetails">
+                                    <ul>
+                                        <li>Title: <?= $r['title'] ?></li>
+                                        <li>Description: <?= $r['description'] ?></li>
+                                        <li>Price: <?= $r['price'] ?>$ </li>
+                                    </ul>
+                                </div>
+                                <div class="addbutton">
+                                    <button type="submit" name="add">ADD</button>
+                                    <input type="hidden" name="product_id" value="<?= $r['product_id'] ?>">
+                                </div>
+
+                            </div>
+                        </form>
+                    </li>
+                <?php endif; ?>
 
             <?php endforeach; ?>
         </ul>
