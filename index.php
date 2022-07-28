@@ -22,7 +22,6 @@ if (isset($_POST['add'])) {
             );
             $_SESSION['cart'][$count] = $product;
             $product_ids = array_column($_SESSION['cart'], 'product_id');
-
         }
     } else {
         $product = array(
@@ -31,7 +30,6 @@ if (isset($_POST['add'])) {
         $_SESSION['cart'][0] = $product;
         $product_ids = array_column($_SESSION['cart'], 'product_id');
     }
-    print_r($_SESSION['cart']);
 }
 
 
