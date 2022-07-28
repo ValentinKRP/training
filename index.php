@@ -3,7 +3,6 @@ include 'common.php';
 
 session_start();
 
-
 $conn = connectDB();
 $stmt = $conn->prepare('SELECT * from products');
 $stmt->execute();
@@ -32,10 +31,7 @@ if (isset($_POST['add'])) {
     }
 }
 
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -51,9 +47,9 @@ if (isset($_POST['add'])) {
     <h1>PRODUCTS</h1>
     <div class="container">
         <ul class="proditems">
-            <?php foreach ($result as $r) : ?>
-                <?php if (isset($_SESSION['cart']) && isset($_POST['add'])) : ?>
-                    <?php if (!in_array($r['product_id'], $product_ids)) : ?>
+            <?php foreach ($result as $r): ?>
+                <?php if (isset($_SESSION['cart']) && isset($_POST['add'])): ?>
+                    <?php if (!in_array($r['product_id'], $product_ids)): ?>
                         <li>
                             <form action="index.php" method="POST">
                                 <div class="proditem">
@@ -77,7 +73,7 @@ if (isset($_POST['add'])) {
                         </li>
                     <?php endif; ?>
 
-                <?php else : ?>
+                <?php else: ?>
                     <li>
                         <form action="index.php" method="POST">
                             <div class="proditem">
