@@ -9,7 +9,7 @@
    
 }
 .proditem{
-    width: 60%;
+    width: 50%;
     height: 10%;
     display: flex;
     background-color: darkorchid;
@@ -28,4 +28,36 @@
 width: 50%;
 
  
+}
+.cartproducts ul{
+    list-style-type: none;
+}
+.cartproducts{
+   
+   
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+
+
+}
+ .proditemcart{
+    display: flex;
+    background-color: darkorchid;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+}
+.cartproducts input{
+    margin: 5px;
+}
+.quantity input{
+    padding: 2px;
+   
+}
+.quantity label{
+    margin-left: 3px;
 }

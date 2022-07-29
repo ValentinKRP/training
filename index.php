@@ -3,34 +3,55 @@ include 'common.php';
 
 session_start();
 
+if (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = 'en';
+} else if (isset($_GET['lang']) && $_SESSION['lang'] != $_GET['lang']  && !empty($_GET['lang'])) {
+    if ($_GET['lang'] == 'en') {
+        $_SESSION['lang'] = 'en';
+    } else if ($_GET['lang'] == 'ro') {
+        $_SESSION['lang'] = 'ro';
+    }
+}
+
+require_once "languages/" . $_SESSION['lang'] . ".php";
+
 $conn = connectDB();
 $stmt = $conn->prepare('SELECT * from products');
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$product_ids = array();
+if (isset($_SESSION['cart'])) {
+    $product_ids = array_column($_SESSION['cart'], 'product_id');
+}else{
+    $product_ids=array();
+}
+
 if (isset($_POST['add'])) {
     if (isset($_SESSION['cart'])) {
-        $product_ids = array_column($_SESSION['cart'], 'product_id');
+        
 
-        if (in_array($_POST['product_id'], $product_ids)) {
-            echo "<script>alert('This product already in the cart!')</script>";
-        } else {
             $count = count($_SESSION['cart']);
             $product = array(
-                'product_id' => $_POST['product_id']
+                'product_id' => $_POST['product_id'],
+                'quantity'=> 1
             );
-            $_SESSION['cart'][$count] = $product;
-            $product_ids = array_column($_SESSION['cart'], 'product_id');
-        }
+          array_push($_SESSION['cart'],$product);
+            array_push($product_ids,$_POST['product_id']);
+            
+        
     } else {
         $product = array(
-            'product_id' => $_POST['product_id']
+            'product_id' => $_POST['product_id'],
+            'quantity'=> 1
+   
         );
         $_SESSION['cart'][0] = $product;
-        $product_ids = array_column($_SESSION['cart'], 'product_id');
+        array_push($product_ids,$_POST['product_id']);
     }
 }
 
+print_r($product_ids);
+echo "\n";
+print_r($_SESSION['cart']);
 ?>
 
 <!DOCTYPE html>
@@ -40,11 +61,11 @@ if (isset($_POST['add'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link href="style.css" rel="stylesheet">
-    <title>Training</title>
+    <title><?=$lang['title'] ?></title>
 </head>
 
 <body>
-    <h1>PRODUCTS</h1>
+    <h1><?=$lang['title'] ?></h1>
     <div class="container">
         <ul class="proditems">
             <?php foreach ($result as $r): ?>
@@ -57,14 +78,15 @@ if (isset($_POST['add'])) {
                                 </div>
                                 <div class="proddetails">
                                     <ul>
-                                        <li>Title: <?= $r['title'] ?></li>
-                                        <li>Description: <?= $r['description'] ?></li>
-                                        <li>Price: <?= $r['price'] ?>$ </li>
+                                        <li><?=$lang['product_title'] ?>: <?= $r['title'] ?></li>
+                                        <li><?=$lang['product_description'] ?>: <?= $r['description'] ?></li>
+                                        <li><?=$lang['product_price'] ?>: <?= $r['price'] ?>$ </li>
                                     </ul>
                                 </div>
                                 <div class="addbutton">
                                     <button type="submit" name="add">ADD</button>
                                     <input type="hidden" name="product_id" value="<?= $r['product_id'] ?>">
+                                    
                                 </div>
 
                             </div>
@@ -76,7 +98,7 @@ if (isset($_POST['add'])) {
 
             <?php endforeach; ?>
         </ul>
-        <a href="cart.php">Go to cart</a>
+        <a href="cart.php"><?=$lang['cart'] ?></a>
     </div>
     <script>
 
