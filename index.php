@@ -16,6 +16,9 @@ if (!isset($_SESSION['lang'])) {
 require_once "languages/" . $_SESSION['lang'] . ".php";
 
 $conn = connectDB();
+
+$user_data=check_login($conn);
+
 $stmt = $conn->prepare('SELECT * from products');
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -50,7 +53,7 @@ if (isset($_POST['add'])) {
 }
 
 print_r($product_ids);
-echo "\n";
+
 print_r($_SESSION['cart']);
 ?>
 
@@ -66,6 +69,8 @@ print_r($_SESSION['cart']);
 
 <body>
     <h1><?=$lang['title'] ?></h1>
+    <h1>Welcome <?= $user_data['user_name']?></h1>
+    <a href="logout.php">Logout</a>
     <div class="container">
         <ul class="proditems">
             <?php foreach ($result as $r): ?>

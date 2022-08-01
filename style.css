@@ -61,3 +61,18 @@ width: 50%;
 .quantity label{
     margin-left: 3px;
 }
+
+#box{
+   
+    margin: auto;
+    width: 50%;
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aqua;
+  
+}
+#box input{
+    width: 100%;
+}
