@@ -4,12 +4,12 @@
 }
 .proditems{
     list-style-type: none;
-    width: 100%;
+  
  
    
 }
 .proditem{
-    width: 50%;
+    width: 100%;
     height: 10%;
     display: flex;
     background-color: darkorchid;
@@ -24,9 +24,14 @@
 .addbutton{
     margin-right: 15px;
 }
+.prodimage{
+    width: 15%;
+    height:100%;
+}
 .prodimage img {
-width: 50%;
-
+width: 100%;
+height: 100%;
+object-fit:fit;
  
 }
 .cartproducts ul{
@@ -75,4 +80,26 @@ width: 50%;
 }
 #box input{
     width: 100%;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: aqua;
+    flex-direction: column;
+  
+}
+
+.container ul{
+   
+    text-align: center;
+}
+.addbutton{
+    width: 100%;
+    text-align: center;
+}
+.form-group{
+    width: 50%;
+    align-items: center;
 }

@@ -37,13 +37,13 @@ if (isset($_SESSION['cart'])) {
         $sql = "SELECT * FROM `products` WHERE product_id=? ";
         $stmt = $conn->prepare($sql);
         foreach($_SESSION['cart'] as $key => $values){
-            print_r($values['product_id']);
+          
                $stmt->execute([$values['product_id']]);
                $result = $stmt->fetch();
                $total=$total + ($result['price']*$values['quantity']);
 
         }
-        print_r($total);
+    
         $sql = "INSERT INTO `orders` (user_name, details, price) VALUES(?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$_POST['username'], $_POST['details'], $total]);
@@ -54,9 +54,12 @@ if (isset($_SESSION['cart'])) {
             $product_id = $values['product_id'];
             $stmt->execute([$id, $product_id]);
         }
+
+       send_email($_POST['username'],$_POST['details'],$_POST['comments']);
+
         unset($_SESSION['cart']);
-        echo "<script>alert('Order placed')
-        window.location.href='index.php'</script>";
+        // echo "<script>alert('Order placed')
+        // window.location.href='index.php'</script>";
     }
 } else {
     $product_ids = array();
