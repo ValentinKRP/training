@@ -1,4 +1,5 @@
 <?php
+
 include 'common.php';
 
 session_start();
@@ -23,7 +24,6 @@ if (isset($_POST['delete'])) {
         header("Location: products.php");
         die;
     } else {
-       
     }
 }
 
@@ -65,7 +65,7 @@ if (isset($_POST['delete'])) {
 
                             </div>
                         </form>
-                        <form action="product.php?id=<?=$r['product_id']?>" method="POST">
+                        <form action="product.php?id=<?= $r['product_id'] ?>" method="POST">
                             <div class="editbutton">
                                 <button type="submit" name="edit"><?= $lang['edit'] ?></button>
                                 <input type="hidden" name="product_id" value="<?= $r['product_id'] ?>">
@@ -76,10 +76,10 @@ if (isset($_POST['delete'])) {
                     </div>
 
                 </li>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
 
 
-           
+
         </ul>
         <div class="addbutton">
             <a href="product.php"><?= $lang['add_product'] ?></a>
