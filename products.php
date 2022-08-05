@@ -3,17 +3,10 @@ include 'common.php';
 
 session_start();
 
-if (!isset($_SESSION['lang'])) {
-    $_SESSION['lang'] = 'en';
-} else if (isset($_GET['lang']) && $_SESSION['lang'] != $_GET['lang']  && !empty($_GET['lang'])) {
-    if ($_GET['lang'] == 'en') {
-        $_SESSION['lang'] = 'en';
-    } else if ($_GET['lang'] == 'ro') {
-        $_SESSION['lang'] = 'ro';
-    }
-}
+$lang = translate();
+include "languages/$lang.php";
 
-require_once "languages/" . $_SESSION['lang'] . ".php";
+
 
 $conn = connectDB();
 $stmt = $conn->prepare('SELECT * from products');
@@ -27,10 +20,10 @@ if (isset($_POST['delete'])) {
     $stmt->execute([$id]);
 
     if ($stmt) {
-       echo "<script>alert('Product was deleted')
-        window.location.href='products.php'</script>";
+        header("Location: products.php");
+        die;
     } else {
-        echo '<scrip>alert("Something went wrong")</script';
+       
     }
 }
 
@@ -47,7 +40,7 @@ if (isset($_POST['delete'])) {
 </head>
 
 <body>
-    <h1>Products</h1>
+    <h1><?= $lang['product'] ?></h1>
 
     <div class="container">
         <ul class="proditems">
@@ -67,14 +60,14 @@ if (isset($_POST['delete'])) {
                         </div>
                         <form action="products.php" method="POST">
                             <div class="removebutton">
-                                <button type="submit" name="delete">DELETE</button>
+                                <button type="submit" name="delete"><?= $lang['delete'] ?></button>
                                 <input type="hidden" name="product_id" value="<?= $r['product_id'] ?>">
 
                             </div>
                         </form>
                         <form action="product.php?id=<?=$r['product_id']?>" method="POST">
                             <div class="editbutton">
-                                <button type="submit" name="edit">EDIT</button>
+                                <button type="submit" name="edit"><?= $lang['edit'] ?></button>
                                 <input type="hidden" name="product_id" value="<?= $r['product_id'] ?>">
 
                             </div>
@@ -89,7 +82,7 @@ if (isset($_POST['delete'])) {
            
         </ul>
         <div class="addbutton">
-            <a href="product.php">Add</a>
+            <a href="product.php"><?= $lang['add_product'] ?></a>
         </div>
     </div>
     <script>
