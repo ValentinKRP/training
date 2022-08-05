@@ -1,5 +1,5 @@
 <?php
-define('SERVER_NAME', 'your_server');
+define('SERVER_NAME', 'your_db_server');
 define('USER_NAME', 'the user name');
 define('PASSWORD', 'your_password');
-define('EMAIL_TO','email_to_send_mail');
+define('SHOP_MANAGER','manager_email_adress');
