@@ -2,7 +2,10 @@
 
 session_start();
 
+
 include 'common.php';
+$lang=translate();
+include "languages/$lang.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -25,13 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 header("Location: index.php");
                 die;
             }
+        }else{
+            $errorLogin='This account doesnt exists';
+           
         }
-
-        echo "<script>alert('Wrong username or password')
-        window.location.href='login.php'</script>";
+        
     } else {
-        echo "<script>alert('Please eneter valid data')
-        window.location.href='login.php'</script>";
+        $errorLogin='Please enter valid data';
+           
     }
 }
 
@@ -52,17 +56,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div id="box">
         <form method="POST">
-            <div>Login</div>
+            <div><?= $lang['login'] ?></div>
             <input type="text" name="user_name"><br><br>
             <input type="password" name="password"><br><br>
 
             <input type="submit" value="Login">
-
-            <a href="signup.php">Sign Up</a>
+            <?php if(isset($errorLogin)): ?>
+                <span  class="error"><?= $errorLogin ?></span>
+                <br>
+            <?php endif; ?>
+            <a href="signup.php"><?= $lang['signup'] ?></a>
 
         </form>
 
     </div>
 </body>
-
 </html>
