@@ -65,7 +65,6 @@ if (isset($_GET['id'])) {
                         unset($_SESSION['product_price']);
                         header("Location: products.php");
                         die;
-                      
                     };
                 } else {
                 }
@@ -81,7 +80,6 @@ if (isset($_GET['id'])) {
             $stmt->execute([$product_title, $product_desc, $product_price, $id]);
             header("Location: products.php");
             die;
-          
         }
     }
 }
@@ -150,15 +148,15 @@ if (isset($_POST['add_product'])) {
         <h2> <?= isset($_POST['edit']) ? "Edit product" : "Add product" ?></h2>
 
         <hr>
-           <?php if(isset($_GET['id'])): ?>
-            <form action="product.php?id=<?= $_GET['id']  ?>"  method="POST" enctype="multipart/form-data">
-           <?php else: ?>
-            <form action="product.php"  method="POST" enctype="multipart/form-data">
-           
-<?php endif; ?>
+        <?php if (isset($_GET['id'])) : ?>
+            <form action="product.php?id=<?= $_GET['id']  ?>" method="POST" enctype="multipart/form-data">
+            <?php else : ?>
+                <form action="product.php" method="POST" enctype="multipart/form-data">
+
+                <?php endif; ?>
                 <div class="form-group">
                     <label for=""><?= $lang['product_name'] ?> </label>
-                    <input type="text" name="product_name" placeholder="product name"  <?php if (isset($_GET['id'])) : ?> value="<?= $result['title'] ?>" <?php endif; ?> <?php if (isset($_SESSION['product_name'])) : ?> value="<?= $_SESSION['product_name'] ?>" <?php endif; ?> required>
+                    <input type="text" name="product_name" placeholder="product name" <?php if (isset($_GET['id'])) : ?> value="<?= $result['title'] ?>" <?php endif; ?> <?php if (isset($_SESSION['product_name'])) : ?> value="<?= $_SESSION['product_name'] ?>" <?php endif; ?> required>
 
                 </div>
                 <div class="form-group">

@@ -17,13 +17,13 @@ if (isset($_GET['id'])) {
     $stmt->execute([$id]);
     $order_products = array();
     $order_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
- 
+
     foreach ($order_items as $key => $values) {
         $sql = "SELECT * from `products` WHERE product_id=? ";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$values['product_id']]);
         $order_item = $stmt->fetch(PDO::FETCH_ASSOC);
-        $order_item['price']=$values['product_price'];
+        $order_item['price'] = $values['product_price'];
         array_push($order_products, $order_item);
     }
 }

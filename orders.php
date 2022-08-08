@@ -4,8 +4,8 @@ include 'common.php';
 
 session_start();
 
-$lang=translate();
-include "languages/" . $lang . ".php";
+$lang = translate();
+include "languages/$lang.php";
 
 $conn = connectDB();
 $stmt = $conn->prepare('SELECT * from orders');
@@ -16,6 +16,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,13 +24,13 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="style.css" rel="stylesheet">
     <title>Orders</title>
 </head>
+
 <body>
     <h1><?= $lang['order'] ?></h1>
-<div class="container">
+    <div class="container">
         <ul class="proditems">
             <?php foreach ($result as $r) : ?>
                 <li>
-
                     <div class="proditem">
                         <div class="prodimage">
                             <?= $r['user_name'] ?>
@@ -41,24 +42,18 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <li><?= $lang['order_date'] ?>: <?= $r['order_date'] ?> </li>
                             </ul>
                         </div>
-                        <form action="order.php?id=<?= $r['order_id']?>" method="POST">
+                        <form action="order.php?id=<?= $r['order_id'] ?>" method="POST">
                             <div class="viewbutton">
                                 <button type="submit" name="view"><?= $lang['view'] ?></button>
                                 <input type="hidden" name="order_id" value="<?= $r['order_id'] ?>">
-
                             </div>
                         </form>
-                       
                     </div>
-
                 </li>
-                <?php endforeach; ?>
-
-
-           
+            <?php endforeach; ?>
         </ul>
-       
-    </div>    
+    </div>
 
 </body>
+
 </html>

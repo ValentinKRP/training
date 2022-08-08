@@ -56,6 +56,7 @@ if (isset($_POST['add'])) {
     header("Location: index.php");
     die;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -97,6 +98,6 @@ if (isset($_POST['add'])) {
         </ul>
         <a href="cart.php"><?= $lang['cart'] ?></a>
     </div>
-            </body>
-            
+</body>
+
 </html>
