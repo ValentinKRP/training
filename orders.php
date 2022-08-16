@@ -2,9 +2,7 @@
 
 include 'common.php';
 
-session_start();
-
-$lang = translate();
+$lang = detectLanguage();
 include "languages/$lang.php";
 
 $conn = connectDB();
@@ -26,7 +24,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <h1><?= $lang['order'] ?></h1>
+    <h1><?= translate('order') ?></h1>
     <div class="container">
         <ul class="proditems">
             <?php foreach ($result as $r) : ?>
@@ -37,14 +35,14 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <div class="proddetails">
                             <ul>
-                                <li><?= $lang['order_details'] ?>: <?= $r['details'] ?></li>
-                                <li><?= $lang['order_price'] ?>: <?= $r['price'] ?></li>
-                                <li><?= $lang['order_date'] ?>: <?= $r['order_date'] ?> </li>
+                                <li><?= translate('order_details') ?>: <?= $r['details'] ?></li>
+                                <li><?= translate('order_price') ?>: <?= $r['price'] ?></li>
+                                <li><?= translate('order_date') ?>: <?= $r['order_date'] ?> </li>
                             </ul>
                         </div>
                         <form action="order.php?id=<?= $r['order_id'] ?>" method="POST">
                             <div class="viewbutton">
-                                <button type="submit" name="view"><?= $lang['view'] ?></button>
+                                <button type="submit" name="view"><?= translate('view') ?></button>
                                 <input type="hidden" name="order_id" value="<?= $r['order_id'] ?>">
                             </div>
                         </form>

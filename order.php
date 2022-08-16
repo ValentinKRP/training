@@ -2,11 +2,12 @@
 
 include 'common.php';
 
-$lang = translate();
+$lang = detectLanguage();
 include "languages/$lang.php";
 $conn = connectDB();
 
 if (isset($_GET['id'])) {
+
     $id = $_GET['id'];
     $sql = "SELECT * from `orders` WHERE order_id=? ";
     $stmt = $conn->prepare($sql);
@@ -15,16 +16,17 @@ if (isset($_GET['id'])) {
     $sql = "SELECT * from `users_orders` WHERE order_id=? ";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$id]);
-    $order_products = array();
-    $order_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $orderProducts = [];
+    $orderItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    foreach ($order_items as $key => $values) {
+    foreach ($orderItems as $key => $values) {
+
         $sql = "SELECT * from `products` WHERE product_id=? ";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$values['product_id']]);
-        $order_item = $stmt->fetch(PDO::FETCH_ASSOC);
-        $order_item['price'] = $values['product_price'];
-        array_push($order_products, $order_item);
+        $orderItem = $stmt->fetch(PDO::FETCH_ASSOC);
+        $orderItem['price'] = $values['product_price'];
+        $orderProducts[] = $orderItem;
     }
 }
 
@@ -44,10 +46,10 @@ if (isset($_GET['id'])) {
 
 <body>
     <div class="container">
-        <h3><?= $lang['order_id'] ?> :<?= $order['order_id'] ?></h1>
-            <h3><?= $lang['order_client'] ?> : <?= $order['user_name'] ?></h1>
+        <h3><?= translate('order_id') ?> :<?= $order['order_id'] ?></h1>
+            <h3><?= translate('order_client') ?> : <?= $order['user_name'] ?></h1>
                 <ul class="proditems">
-                    <?php foreach ($order_products as $r) : ?>
+                    <?php foreach ($orderProducts as $r) : ?>
                         <li>
                             <div class="proditem">
                                 <div class="prodimage">
@@ -55,16 +57,16 @@ if (isset($_GET['id'])) {
                                 </div>
                                 <div class="proddetails">
                                     <ul>
-                                        <li><?= $lang['product_title'] ?>: <?= $r['title'] ?></li>
-                                        <li><?= $lang['product_description'] ?>: <?= $r['description'] ?></li>
-                                        <li><?= $lang['product_price'] ?>: <?= $r['price'] ?>$ </li>
+                                        <li><?= translate('product_title') ?>: <?= $r['title'] ?></li>
+                                        <li><?= translate('product_description') ?>: <?= $r['description'] ?></li>
+                                        <li><?= translate('product_price') ?>: <?= $r['price'] ?>$ </li>
                                     </ul>
                                 </div>
                             </div>
                         </li>
                     <?php endforeach; ?>
                 </ul>
-                <a href="orders.php"><?= $lang['navigate_orders'] ?></a>
+                <a href="orders.php"><?= translate('navigate_orders') ?></a>
     </div>
 </body>
 

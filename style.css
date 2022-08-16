@@ -1,12 +1,8 @@
 .proddetails ul{
     list-style-type:none;
-  
 }
 .proditems{
     list-style-type: none;
-  
- 
-   
 }
 .proditem{
     width: 100%;
@@ -16,7 +12,6 @@
     margin-top: 20px;
     justify-content: center;
     align-items: center;
-   
 }
 .proddetails{
     flex-grow: 1;
@@ -38,16 +33,10 @@ object-fit:fit;
     list-style-type: none;
 }
 .cartproducts{
-   
-   
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-
-
-
 }
  .proditemcart{
     display: flex;
@@ -61,14 +50,12 @@ object-fit:fit;
 }
 .quantity input{
     padding: 2px;
-   
 }
 .quantity label{
     margin-left: 3px;
 }
 
 #box{
-   
     margin: auto;
     width: 50%;
     height: 25%;
@@ -92,7 +79,6 @@ object-fit:fit;
 }
 
 .container ul{
-   
     text-align: center;
 }
 

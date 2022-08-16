@@ -1,18 +1,16 @@
 <?php
 
-session_start();
-
-
 include 'common.php';
-$lang=translate();
+$lang=detectLanguage();
 include "languages/$lang.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $user_name = $_POST['user_name'];
+    $userName = $_POST['user_name'];
     $password = $_POST['password'];
 
-    if (!empty($user_name) && !empty($password) && !is_numeric($user_name)) {
+    if (!empty($user_name) && !empty($password) && !is_numeric($userName)) {
+
         $conn = connectDB();
         $sql = 'SELECT * from users where user_name=? limit 1';
         $stmt = $conn->prepare($sql);
@@ -20,22 +18,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->execute([$user_name]);
         $count = $stmt->rowCount();
         if ($stmt && $count > 0) {
-            $user_data = $stmt->fetch();
 
-            if ($user_data['password'] == $password) {
+            $userData = $stmt->fetch();
 
-                $_SESSION['user_id'] = $user_data['user_id'];
+            if ($userData['password'] == $password) {
+
+                $_SESSION['user_id'] = $userData['user_id'];
                 header("Location: index.php");
                 die;
             }
         }else{
+
             $errorLogin='This account doesnt exists';
-           
         }
         
     } else {
+        
         $errorLogin='Please enter valid data';
-           
     }
 }
 
@@ -55,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div id="box">
         <form method="POST">
-            <div><?= $lang['login'] ?></div>
+            <div><?= translate('login')?></div>
             <input type="text" name="user_name"><br><br>
             <input type="password" name="password"><br><br>
 
@@ -64,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <span  class="error"><?= $errorLogin ?></span>
                 <br>
             <?php endif; ?>
-            <a href="signup.php"><?= $lang['signup'] ?></a>
+            <a href="signup.php"><?= translate('signup') ?></a>
 
         </form>
 
