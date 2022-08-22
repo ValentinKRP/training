@@ -5,9 +5,7 @@ include_once 'common.php';
 $conn = connectDB();
 $orderProducts = [];
 if (isset($_SESSION['cart'])) {
-
     foreach ($_SESSION['cart'] as $key => $values) {
-
         $sql = "SELECT * from `products` WHERE product_id=? ";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$values['product_id']]);
@@ -34,7 +32,7 @@ if (isset($_SESSION['cart'])) {
                         <li><?= translate('product_price') ?>: <?= $r['price'] ?>$ </li>
                     </ul>
                 </div>
-            <?php endforeach; ?>
+        <?php endforeach; ?>
             <div class="order_details">
                 <p><?= translate('order_details') ?>: {ORDER_DETAILS}</p><br><br>
                 <p><?= translate('order_comments') ?>: {ORDER_COMMENTS}</p><br><br>

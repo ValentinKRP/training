@@ -1,16 +1,14 @@
 <?php
 
 include 'common.php';
-$lang=detectLanguage();
+$lang = detectLanguage();
 include "languages/$lang.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
     $userName = $_POST['user_name'];
     $password = $_POST['password'];
 
     if (!empty($user_name) && !empty($password) && !is_numeric($userName)) {
-
         $conn = connectDB();
         $sql = 'SELECT * from users where user_name=? limit 1';
         $stmt = $conn->prepare($sql);
@@ -18,23 +16,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->execute([$user_name]);
         $count = $stmt->rowCount();
         if ($stmt && $count > 0) {
-
             $userData = $stmt->fetch();
 
             if ($userData['password'] == $password) {
-
                 $_SESSION['user_id'] = $userData['user_id'];
                 header("Location: index.php");
                 die;
             }
-        }else{
-
-            $errorLogin='This account doesnt exists';
+        } else {
+            $errorLogin = 'This account doesnt exists';
         }
-        
     } else {
-        
-        $errorLogin='Please enter valid data';
+        $errorLogin = 'Please enter valid data';
     }
 }
 
@@ -59,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="password" name="password"><br><br>
 
             <input type="submit" value="Login">
-            <?php if(isset($errorLogin)): ?>
+            <?php if (isset($errorLogin)) : ?>
                 <span  class="error"><?= $errorLogin ?></span>
                 <br>
             <?php endif; ?>

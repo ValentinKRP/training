@@ -11,17 +11,15 @@ $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset($_POST['delete'])) {
-
     $id = $_POST['product_id'];
     $sql = 'DELETE from products WHERE product_id=?';
     $stmt = $conn->prepare($sql);
     $stmt->execute([$id]);
 
     if ($stmt) {
-        
         header("Location: products.php");
         die;
-    } 
+    }
 }
 
 ?>

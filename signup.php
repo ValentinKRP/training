@@ -3,7 +3,6 @@
 include 'common.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
     $user_name = $_POST['user_name'];
     $password = $_POST['password'];
 

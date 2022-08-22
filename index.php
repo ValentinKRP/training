@@ -5,56 +5,53 @@ include 'common.php';
 $conn = connectDB();
 
 if (isset($_SESSION['cart']) && count($_SESSION['cart']) !== 0) {
-
     $productIds = array_column($_SESSION['cart'], 'product_id');
     $result = [];
     $excludeIds = array_values($productIds);
-    $count=count($excludeIds);
-    for($count; $count > 0; $count--){
-
-        $in[]='?';
+    $count = count($excludeIds);
+    for ($count; $count > 0; $count--) {
+        $in[] = '?';
     }
 
-    $in=implode(', ',$in);
-    
+    $in = implode(', ', $in);
+
     $sql = "SELECT * from products WHERE product_id NOT IN ($in)";
     $stmt = $conn->prepare($sql);
     $stmt->execute($excludeIds);
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } else {
-
     $productIds = [];
     $stmt = $conn->prepare('SELECT * from products');
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-if (isset($_POST['add']) 
-    && isset($_SESSION['cart']) 
-    && !(in_array($_POST['product_id'], $productIds)))  {
-    
-
+if (
+    isset($_POST['add'])
+    && isset($_SESSION['cart'])
+    && !(in_array($_POST['product_id'], $productIds))
+) {
             $count = count($_SESSION['cart']);
             $product = [
                 'product_id' => $_POST['product_id'],
             ];
-            $_SESSION['cart'][]= $product;
-            $productIds[]= $_POST['product_id'];
+            $_SESSION['cart'][] = $product;
+            $productIds[] = $_POST['product_id'];
 
             header("Location: index.php");
             die;
-} elseif (isset($_POST['add']) 
-          && !isset($_SESSION['cart'])) {
-
+} elseif (
+    isset($_POST['add'])
+          && !isset($_SESSION['cart'])
+) {
         $product = [
             'product_id' => $_POST['product_id'],
         ];
-        $_SESSION['cart']=[];
+        $_SESSION['cart'] = [];
         $_SESSION['cart'][] = $product;
-        $productIds[]= $_POST['product_id'];
+        $productIds[] = $_POST['product_id'];
         header("Location: index.php");
         die;
-   
 }
 ?>
 

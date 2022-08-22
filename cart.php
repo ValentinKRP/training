@@ -8,13 +8,10 @@ $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset($_SESSION['cart'])) {
-
     $productIds = array_column($_SESSION['cart'], 'product_id');
     if (isset($_POST['remove'])) {
-
         foreach ($_SESSION['cart'] as $key => $value) {
             if ($value["product_id"] == $_POST['product_id']) {
-
                 unset($_SESSION['cart'][$key]);
                 unset($productIds[$key]);
                 header("Location: cart.php");
@@ -22,21 +19,17 @@ if (isset($_SESSION['cart'])) {
             }
         }
     }
- 
 
     if (isset($_POST['checkout'])) {
         if (!preg_match("/^[a-zA-Z-']*$/", testInput($_POST['username']))) {
-
             $usernameError = 'Enter a valid name';
         } else {
-
             $total = 0;
             $orderDate = date('Y-m-d h:i:sa');
             $sql = "SELECT * FROM `products` WHERE product_id=? ";
             $stmt = $conn->prepare($sql);
 
             foreach ($_SESSION['cart'] as $key => $values) {
-
                 $stmt->execute([$values['product_id']]);
                 $result = $stmt->fetch();
                 $total = $total + $result['price'];
@@ -52,7 +45,6 @@ if (isset($_SESSION['cart'])) {
             $sql2 = "INSERT INTO `users_orders` (order_id, product_id,product_price) VALUES(?, ?, ?)";
             $stmt2 = $conn->prepare($sql2);
             foreach ($_SESSION['cart'] as $key => $values) {
-
                 $stmt->execute([$values['product_id']]);
                 $result = $stmt->fetch();
                 $productId = $values['product_id'];

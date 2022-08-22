@@ -8,20 +8,16 @@ include "languages/$lang.php";
 $conn = connectDB();
 
 if (isset($_POST['product_name'])) {
-
     $_SESSION['product_name'] = $_POST['product_name'];
 }
 if (isset($_POST['product_desc'])) {
-
     $_SESSION['product_desc'] = $_POST['product_desc'];
 }
 if (isset($_POST['product_price'])) {
-
     $_SESSION['product_price'] = $_POST['product_price'];
 }
 
 if (isset($_GET['id'])) {
-
     $id = $_GET['id'];
     $sql = "SELECT * from `products` WHERE product_id=? limit 1";
     $stmt = $conn->prepare($sql);
@@ -29,13 +25,11 @@ if (isset($_GET['id'])) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (isset($_POST['edit_product'])) {
-
         $productTitle = testInput($_POST['product_name']);
         $productDesc = testInput($_POST['product_desc']);
         $productPrice = testInput($_POST['product_price']);
 
         if ($_FILES['product_image']['size'] !== 0) {
-
             $productImage = $_FILES['product_image'];
             $imageName = $_FILES['product_image']['name'];
             $imageType = $_FILES['product_image']['type'];
@@ -46,16 +40,13 @@ if (isset($_GET['id'])) {
             $allowed = ['jpg', 'jpeg', 'png'];
 
             if (in_array($imageActualExtension, $allowed)) {
-
                 if ($imageError === 0) {
-
                     $imageNameNew = uniqid('', true) . "." . "$imageActualExtension";
                     $fileDestionation = 'uploads/' . $imageNameNew;
                     $sql = "UPDATE  products  SET title=?, description=?, price=?, product_image=? WHERE product_id=?";
                     $stmt = $conn->prepare($sql);
 
                     if (move_uploaded_file($_FILES['product_image']['tmp_name'], $fileDestionation)) {
-
                         $stmt->execute([$productTitle, $productDesc, $productPrice, $imageNameNew, $id]);
                         unset($_SESSION['product_name']);
                         unset($_SESSION['product_desc']);
@@ -63,13 +54,11 @@ if (isset($_GET['id'])) {
                         header("Location: products.php");
                         die;
                     };
-                } 
+                }
             } else {
-
                 $errorImage = 'File is not an image';
             }
         } else {
-
             unset($_SESSION['product_name']);
             unset($_SESSION['product_desc']);
             unset($_SESSION['product_price']);
@@ -83,13 +72,11 @@ if (isset($_GET['id'])) {
 }
 
 if (isset($_POST['add_product'])) {
-
     $productTitle = testInput($_POST['product_name']);
     $productDesc = testInput($_POST['product_desc']);
     $productPrice = testInput($_POST['product_price']);
 
     if (isset($_FILES['product_image']) && $_FILES['product_image']['size'] !== 0) {
-
         $productImage = $_FILES['product_image'];
         $imageName = $_FILES['product_image']['name'];
         $imageType = $_FILES['product_image']['type'];
@@ -100,7 +87,6 @@ if (isset($_POST['add_product'])) {
         $allowed = array('jpg', 'jpeg', 'png');
 
         if (in_array($imageActualExtension, $allowed)) {
-
             if ($imageError === 0) {
                 $imageNameNew = uniqid('', true) . "." . "$imageActualExtension";
                 $fileDestionation = 'uploads/' . $imageNameNew;
@@ -109,7 +95,6 @@ if (isset($_POST['add_product'])) {
                 $stmt = $conn->prepare($sql);
 
                 if (move_uploaded_file($_FILES['product_image']['tmp_name'], $fileDestionation)) {
-
                     $stmt->execute([$productTitle, $productDesc, $productPrice, $imageNameNew]);
                     unset($_SESSION['product_name']);
                     unset($_SESSION['product_desc']);
@@ -118,15 +103,12 @@ if (isset($_POST['add_product'])) {
                     die;
                 };
             } else {
-
                 $errorImage = 'Somethig went wrong when uploading the file';
             }
         } else {
-
             $errorImage = 'File is not an image';
         }
     } else {
-        
         $errorImage = 'Please insert an image';
     }
 }
@@ -151,22 +133,34 @@ if (isset($_POST['add_product'])) {
         <hr>
         <?php if (isset($_GET['id'])) : ?>
             <form action="product.php?id=<?= $_GET['id']  ?>" method="POST" enctype="multipart/form-data">
-            <?php else : ?>
+        <?php else : ?>
                 <form action="product.php" method="POST" enctype="multipart/form-data">
 
-                <?php endif; ?>
+        <?php endif; ?>
                 <div class="form-group">
                     <label for=""><?= translate('product_name') ?> </label>
-                    <input type="text" name="product_name" placeholder="product name" <?php if (isset($_GET['id'])) : ?> value="<?= $result['title'] ?>" <?php endif; ?> <?php if (isset($_SESSION['product_name'])) : ?> value="<?= $_SESSION['product_name'] ?>" <?php endif; ?> required>
+                    <input type="text" name="product_name" placeholder="product name" <?php if (isset($_GET['id'])) :
+                        ?> value="<?= $result['title'] ?>" <?php
+                                                                                      endif; ?> <?php if (isset($_SESSION['product_name'])) :
+    ?> value="<?= $_SESSION['product_name'] ?>" <?php
+                                                                                      endif; ?> required>
 
                 </div>
                 <div class="form-group">
                     <label for=""><?= translate('product_description') ?>: </label>
-                    <input type="text" name="product_desc" placeholder="" <?php if (isset($_GET['id'])) : ?> value="<?= $result['description'] ?>" <?php endif; ?> <?php if (isset($_SESSION['product_desc'])) : ?> value="<?= $_SESSION['product_desc'] ?>" <?php endif; ?> required>
+                    <input type="text" name="product_desc" placeholder="" <?php if (isset($_GET['id'])) :
+                        ?> value="<?= $result['description'] ?>" <?php
+                                                                          endif; ?> <?php if (isset($_SESSION['product_desc'])) :
+    ?> value="<?= $_SESSION['product_desc'] ?>" <?php
+                                                                          endif; ?> required>
                 </div>
                 <div class="form-group">
                     <label for=""><?= translate('product_price') ?>: </label>
-                    <input type="number" name="product_price" placeholder="" <?php if (isset($_GET['id'])) : ?> value="<?= $result['price'] ?>" <?php endif; ?> <?php if (isset($_SESSION['product_price'])) : ?> value="<?= $_SESSION['product_price'] ?>" <?php endif; ?> required>
+                    <input type="number" name="product_price" placeholder="" <?php if (isset($_GET['id'])) :
+                        ?> value="<?= $result['price'] ?>" <?php
+                                                                             endif; ?> <?php if (isset($_SESSION['product_price'])) :
+    ?> value="<?= $_SESSION['product_price'] ?>" <?php
+                                                                             endif; ?> required>
                 </div>
                 <div class="form-group">
                     <label><?= translate('product_image') ?>: </label>

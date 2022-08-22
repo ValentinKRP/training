@@ -7,7 +7,6 @@ include "languages/$lang.php";
 $conn = connectDB();
 
 if (isset($_GET['id'])) {
-
     $id = $_GET['id'];
     $sql = "SELECT * from `orders` WHERE order_id=? ";
     $stmt = $conn->prepare($sql);
@@ -20,7 +19,6 @@ if (isset($_GET['id'])) {
     $orderItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($orderItems as $key => $values) {
-
         $sql = "SELECT * from `products` WHERE product_id=? ";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$values['product_id']]);

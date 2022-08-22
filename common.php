@@ -6,14 +6,11 @@ require 'config.php';
 function connectDB()
 {
     try {
-
         $server = SERVER_NAME;
-        $dbName= DATABASE_NAME;
+        $dbName = DATABASE_NAME;
         $conn = new PDO("mysql:host=$server;dbname=$dbName", USER_NAME, PASSWORD);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     } catch (PDOException $e) {
-        
     }
     return $conn;
 }
@@ -26,7 +23,6 @@ function randomNum($length)
     }
     $len = rand(4, $length);
     for ($i = 0; $i < $len; $i++) {
-
         $text .= rand(0, 9);
     }
     return $text;
@@ -54,9 +50,7 @@ function sendEmail($userName, $details, $comments, $orderDate)
     $message = ob_get_clean();
 
     foreach (array_keys($swapVar) as $key) {
-        
         if (strlen($key) > 2 && trim($key) != "") {
-
             $message = str_replace($key, $swapVar[$key], $message);
         }
     }
@@ -73,9 +67,9 @@ function detectLanguage()
 function testInput($data)
 {
 
-$data=strip_tags($data);
-$data=htmlspecialchars($data);
-return $data;
+    $data = strip_tags($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
 
 function translate($label)
@@ -84,5 +78,4 @@ function translate($label)
     include "languages/$lang.php";
 
     return $lang[$label];
-
 }
