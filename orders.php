@@ -2,7 +2,7 @@
 
 include 'common.php';
 
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 1) {
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 1) {
     exit('You are not administrator');
 }
 
