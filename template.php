@@ -6,11 +6,11 @@ $conn = connectDB();
 $orderProducts = [];
 if (isset($_SESSION['cart'])) {
     foreach ($_SESSION['cart'] as $key => $values) {
-        $sql = "SELECT * from `products` WHERE product_id=? ";
+        $sql = 'SELECT * FROM `products` WHERE id=? ';
         $stmt = $conn->prepare($sql);
         $stmt->execute([$values['product_id']]);
         $orderItem = $stmt->fetch(PDO::FETCH_ASSOC);
-        $orderProducts = $orderItem;
+        $orderProducts[] = $orderItem;
     }
 }
 ?>
@@ -20,16 +20,16 @@ if (isset($_SESSION['cart'])) {
 <body>
     <div>
         <div> <?= translate('order_by') ?>: {USER_NAME}</div>
-        <?php foreach ($orderProducts as $r) : ?>
+        <?php foreach ($orderProducts as $product) : ?>
             <div class="proditem">
                 <div class="prodimage">
-                    <img style="width:50px; height:50px;" src="http://localhost/training/uploads/<?= $r['product_image'] ?>">
+                    <img style="width:50px; height:50px;" src="http://localhost/training/uploads/<?= $product['product_image'] ?>">
                 </div>
                 <div class="proddetails">
                     <ul>
-                        <li><?= translate('product_title') ?>: <?= $r['title'] ?></li>
-                        <li><?= translate('product_description') ?>: <?= $r['description'] ?></li>
-                        <li><?= translate('product_price') ?>: <?= $r['price'] ?>$ </li>
+                        <li><?= translate('product_title') ?>: <?= $product['title'] ?></li>
+                        <li><?= translate('product_description') ?>: <?= $product['description'] ?></li>
+                        <li><?= translate('product_price') ?>: <?= $product['price'] ?>$ </li>
                     </ul>
                 </div>
         <?php endforeach; ?>
