@@ -5,22 +5,30 @@ include_once 'common.php';
 $conn = connectDB();
 $orderProducts = [];
 if (isset($_SESSION['cart'])) {
-    foreach ($_SESSION['cart'] as $key => $values) {
-        $sql = 'SELECT * FROM `products` WHERE id=? ';
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([$values['product_id']]);
-        $orderItem = $stmt->fetch(PDO::FETCH_ASSOC);
-        $orderProducts[] = $orderItem;
+        $productIds = array_column($_SESSION['cart'], 'product_id');
+        $products = [];
+        $excludeIds = array_values($productIds);
+        $count = count($excludeIds);
+    for ($count; $count > 0; $count--) {
+            $in[] = '?';
     }
+        $in = implode(', ', $in);
+        $conn = connectDB();
+        $sql = 'SELECT * FROM products WHERE id IN (' . $in . ')';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($excludeIds);
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 ?>
+
 <html lang="en">
 
 
 <body>
     <div>
         <div> <?= translate('order_by') ?>: {USER_NAME}</div>
-        <?php foreach ($orderProducts as $product) : ?>
+        <?php foreach ($products as $product) : ?>
             <div class="proditem">
                 <div class="prodimage">
                     <img style="width:50px; height:50px;" src="http://localhost/training/uploads/<?= $product['product_image'] ?>">
