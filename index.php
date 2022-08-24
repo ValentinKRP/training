@@ -16,7 +16,7 @@ if (isset($_SESSION['cart'])) {
 
         $in = implode(', ', $in);
 
-        $sql = "SELECT * FROM products WHERE id NOT IN ($in)";
+        $sql = 'SELECT * FROM products WHERE id NOT IN (' . $in . ')';
         $stmt = $conn->prepare($sql);
         $stmt->execute($excludeIds);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
