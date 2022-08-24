@@ -8,10 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!empty($user_name) && !empty($password) && !is_numeric($user_name)) {
         $conn = connectDB();
-        $sql = 'INSERT INTO users (user_id,user_name,password) VALUES (?,?,?)';
+        $sql = 'INSERT INTO users (user_name,password) VALUES (?,?)';
         $stmt = $conn->prepare($sql);
-        $user_id = randomNum(20);
-        $stmt->execute([$user_id, $user_name, $password]);
+        $stmt->execute([ $user_name, $password]);
 
         header("Location: login.php");
         die;

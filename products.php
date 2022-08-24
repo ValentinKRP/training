@@ -2,8 +2,10 @@
 
 include 'common.php';
 
-$lang = detectLanguage();
-include "languages/$lang.php";
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 1) {
+     exit('You are not administrator');
+}
+
 
 $conn = connectDB();
 $stmt = $conn->prepare('SELECT * from products');
