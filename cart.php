@@ -15,7 +15,7 @@ if (isset($_SESSION['cart'])) {
         }
         $in = implode(', ', $in);
         $conn = connectDB();
-        $sql = "SELECT * FROM products WHERE id IN ($in)";
+        $sql = 'SELECT * FROM products WHERE id IN (' . $in . ')';
         $stmt = $conn->prepare($sql);
         $stmt->execute($excludeIds);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
