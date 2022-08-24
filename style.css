@@ -27,7 +27,7 @@
 width: 100%;
 height: 100%;
 object-fit:fit;
- 
+
 }
 .cartproducts ul{
     list-style-type: none;
@@ -63,7 +63,7 @@ object-fit:fit;
     justify-content: center;
     align-items: center;
     background-color: aqua;
-  
+
 }
 #box input{
     width: 100%;
@@ -75,7 +75,7 @@ object-fit:fit;
     width: 100%;
     background-color: aqua;
     flex-direction: column;
-  
+
 }
 
 .container ul{

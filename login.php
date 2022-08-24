@@ -1,8 +1,7 @@
 <?php
 
 include 'common.php';
-$lang = detectLanguage();
-include "languages/$lang.php";
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $userName = $_POST['user_name'];
@@ -10,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!empty($user_name) && !empty($password) && !is_numeric($userName)) {
         $conn = connectDB();
-        $sql = 'SELECT * from users where user_name=? limit 1';
+        $sql = 'SELECT * FROM users where user_name=? limit 1';
         $stmt = $conn->prepare($sql);
 
         $stmt->execute([$user_name]);
@@ -20,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($userData['password'] == $password) {
                 $_SESSION['user_id'] = $userData['user_id'];
-                header("Location: index.php");
+                header('Location: index.php');
                 die;
             }
         } else {
@@ -53,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <input type="submit" value="Login">
             <?php if (isset($errorLogin)) : ?>
-                <span  class="error"><?= $errorLogin ?></span>
+                <span  class="error"><?= translate('login_error') ?></span>
                 <br>
             <?php endif; ?>
             <a href="signup.php"><?= translate('signup') ?></a>

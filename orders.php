@@ -2,13 +2,10 @@
 
 include 'common.php';
 
-$lang = detectLanguage();
-include "languages/$lang.php";
-
 $conn = connectDB();
-$stmt = $conn->prepare('SELECT * from orders');
+$stmt = $conn->prepare('SELECT * FROM orders');
 $stmt->execute();
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -20,30 +17,30 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="style.css" rel="stylesheet">
-    <title>Orders</title>
+    <title><?= translate('title') ?></title>
 </head>
 
 <body>
     <h1><?= translate('order') ?></h1>
     <div class="container">
         <ul class="proditems">
-            <?php foreach ($result as $r) : ?>
+            <?php foreach ($orders as $order) : ?>
                 <li>
                     <div class="proditem">
                         <div class="prodimage">
-                            <?= $r['user_name'] ?>
+                            <?= $order['user_name'] ?>
                         </div>
                         <div class="proddetails">
                             <ul>
-                                <li><?= translate('order_details') ?>: <?= $r['details'] ?></li>
-                                <li><?= translate('order_price') ?>: <?= $r['price'] ?></li>
-                                <li><?= translate('order_date') ?>: <?= $r['order_date'] ?> </li>
+                                <li><?= translate('order_details') ?>: <?= $order['details'] ?></li>
+                                <li><?= translate('order_price') ?>: <?= $order['price'] ?></li>
+                                <li><?= translate('order_date') ?>: <?= $order['order_date'] ?> </li>
                             </ul>
                         </div>
-                        <form action="order.php?id=<?= $r['order_id'] ?>" method="POST">
+                        <form action="order.php?id=<?= $order['id'] ?>" method="POST">
                             <div class="viewbutton">
                                 <button type="submit" name="view"><?= translate('view') ?></button>
-                                <input type="hidden" name="order_id" value="<?= $r['order_id'] ?>">
+                                <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
                             </div>
                         </form>
                     </div>

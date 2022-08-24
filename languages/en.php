@@ -29,9 +29,13 @@ $lang = [
     'order_date' => 'Order date',
     'view' => 'View',
     'order_id' => 'Order number',
+    'order_comments' => 'Comments',
     'order_client' => 'Client',
     'navigate_orders' => 'Back to orders',
     'login' => 'Login',
-    'signup' => 'SignUp'
+    'signup' => 'SignUp',
+    'image_error' => 'Something went wrong!Check if the file is an image',
+    'username_error' => 'This username is taken',
+    'login_error' => 'The password or username are incorrect',
 
 ];

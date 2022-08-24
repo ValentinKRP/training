@@ -2,9 +2,6 @@
 
 include 'common.php';
 
-$lang = detectLanguage();
-include "languages/$lang.php";
-
 $conn = connectDB();
 
 if (isset($_POST['product_name'])) {
@@ -19,7 +16,7 @@ if (isset($_POST['product_price'])) {
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $sql = "SELECT * from `products` WHERE product_id=? limit 1";
+    $sql = 'SELECT * FROM `products` WHERE id=? limit 1';
     $stmt = $conn->prepare($sql);
     $stmt->execute([$id]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -43,7 +40,7 @@ if (isset($_GET['id'])) {
                 if ($imageError === 0) {
                     $imageNameNew = uniqid('', true) . "." . "$imageActualExtension";
                     $fileDestionation = 'uploads/' . $imageNameNew;
-                    $sql = "UPDATE  products  SET title=?, description=?, price=?, product_image=? WHERE product_id=?";
+                    $sql = 'UPDATE  products  SET title=?, description=?, price=?, product_image=? WHERE id=?';
                     $stmt = $conn->prepare($sql);
 
                     if (move_uploaded_file($_FILES['product_image']['tmp_name'], $fileDestionation)) {
@@ -51,7 +48,7 @@ if (isset($_GET['id'])) {
                         unset($_SESSION['product_name']);
                         unset($_SESSION['product_desc']);
                         unset($_SESSION['product_price']);
-                        header("Location: products.php");
+                        header('Location: products.php');
                         die;
                     };
                 }
@@ -62,10 +59,10 @@ if (isset($_GET['id'])) {
             unset($_SESSION['product_name']);
             unset($_SESSION['product_desc']);
             unset($_SESSION['product_price']);
-            $sql = "UPDATE  products  SET title=?, description=?, price=? WHERE product_id=?";
+            $sql = 'UPDATE  products  SET title=?, description=?, price=? WHERE id=?';
             $stmt = $conn->prepare($sql);
             $stmt->execute([$productTitle, $productDesc, $productPrice, $id]);
-            header("Location: products.php");
+            header('Location: products.php');
             die;
         }
     }
@@ -91,7 +88,7 @@ if (isset($_POST['add_product'])) {
                 $imageNameNew = uniqid('', true) . "." . "$imageActualExtension";
                 $fileDestionation = 'uploads/' . $imageNameNew;
 
-                $sql = "INSERT INTO products (title, description, price, product_image) VALUES(?,?,?,?)";
+                $sql = 'INSERT INTO products (title, description, price, product_image) VALUES(?,?,?,?)';
                 $stmt = $conn->prepare($sql);
 
                 if (move_uploaded_file($_FILES['product_image']['tmp_name'], $fileDestionation)) {
@@ -99,7 +96,7 @@ if (isset($_POST['add_product'])) {
                     unset($_SESSION['product_name']);
                     unset($_SESSION['product_desc']);
                     unset($_SESSION['product_price']);
-                    header("Location: products.php");
+                    header('Location: products.php');
                     die;
                 };
             } else {
@@ -123,7 +120,7 @@ if (isset($_POST['add_product'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="style.css" rel="stylesheet">
-    <title>Product</title>
+    <title><?= translate('title') ?></title>
 </head>
 
 <body>
@@ -172,7 +169,7 @@ if (isset($_POST['add_product'])) {
                     <label><?= translate('product_image') ?>: </label>
                     <input type="file" name="product_image">
                     <?php if (isset($errorImage)) : ?>
-                        <span style="color:red;"><?= $errorImage ?></span>
+                        <span style="color:red;"><?= translate('image_error') ?></span>
                         <br>
                     <?php endif; ?>
                 </div>

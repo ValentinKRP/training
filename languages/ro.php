@@ -28,9 +28,13 @@ $lang = [
     'order_date' => 'Data plasarii',
     'view' => 'Vezi',
     'order_id' => 'Numar comanda',
+    'order_comments' => 'Comentarii',
     'order_client' => 'Client',
     'navigate_orders' => 'Inapoi la comenzi',
     'login' => 'Autentificare',
-    'signup' => 'Inregistrare'
+    'signup' => 'Inregistrare',
+    'image_error' => 'Ceva nu a mers bine!Verificati daca documentul este o imagine',
+    'username_error' => 'Acest nume este deja utilizat',
+    'login_error' => 'Parola sau numele de utilizator sunt gresite',
 
 ];

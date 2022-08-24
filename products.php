@@ -12,12 +12,12 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset($_POST['delete'])) {
     $id = $_POST['product_id'];
-    $sql = 'DELETE from products WHERE product_id=?';
+    $sql = 'DELETE FROM products WHERE id=?';
     $stmt = $conn->prepare($sql);
     $stmt->execute([$id]);
 
     if ($stmt) {
-        header("Location: products.php");
+        header('Location: products.php');
         die;
     }
 }
@@ -31,7 +31,7 @@ if (isset($_POST['delete'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link href="style.css" rel="stylesheet">
-    <title>Products</title>
+    <title><?= translate('title') ?></title>
 </head>
 
 <body>

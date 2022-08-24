@@ -1,8 +1,10 @@
 <?php
 
+require 'config.php';
+
 session_start();
 
-require 'config.php';
+
 function connectDB()
 {
     try {
@@ -11,6 +13,8 @@ function connectDB()
         $conn = new PDO("mysql:host=$server;dbname=$dbName", USER_NAME, PASSWORD);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
+        echo $e->getmessage();
+        exit;
     }
     return $conn;
 }
