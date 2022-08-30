@@ -17,6 +17,7 @@ $lang = [
     'product' => 'Products',
     'delete' => 'Delete',
     'edit' => 'Edit',
+    'update' => 'Update',
     'add_product' => 'Add new product',
     'product_name' => 'Name of the product',
     'product_image' => 'Image',

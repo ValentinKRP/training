@@ -9,6 +9,7 @@ if (isset($_SESSION['cart'])) {
         $products = [];
         $excludeIds = array_values($productIds);
         $count = count($excludeIds);
+        $in = [];
     for ($count; $count > 0; $count--) {
             $in[] = '?';
     }
@@ -35,13 +36,17 @@ if (isset($_SESSION['cart'])) {
                 </div>
                 <div class="proddetails">
                     <ul>
+                         <?= $found_key = array_search($product['id'], array_column($_SESSION['cart'], 'product_id'));?>
                         <li><?= translate('product_title') ?>: <?= $product['title'] ?></li>
                         <li><?= translate('product_description') ?>: <?= $product['description'] ?></li>
                         <li><?= translate('product_price') ?>: <?= $product['price'] ?>$ </li>
+                        <li><?= translate('quantity') ?>: <?= $_SESSION['cart'][$found_key]['quantity'] ?></li>
+                       
                     </ul>
                 </div>
         <?php endforeach; ?>
             <div class="order_details">
+                <p><?= translate('order_price') ?>: {ORDER_TOTAL}</p><br><br>
                 <p><?= translate('order_details') ?>: {ORDER_DETAILS}</p><br><br>
                 <p><?= translate('order_comments') ?>: {ORDER_COMMENTS}</p><br><br>
                 <p><?= translate('order_date') ?>: {ORDER_DATE}</p><br><br>

@@ -34,8 +34,10 @@ if (isset($_SESSION['cart'])) {
         && !in_array($_POST['product_id'], $productIds)
     ) {
             $count = count($_SESSION['cart']);
+            $quantity = 1;
             $product = [
                 'product_id' => $_POST['product_id'],
+                'quantity' => $quantity,
             ];
             $_SESSION['cart'][] = $product;
             header('Location: index.php');
@@ -47,8 +49,10 @@ if (isset($_SESSION['cart'])) {
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if (isset($_POST['add'])) {
+            $quantity = 1;
             $product = [
                 'product_id' => $_POST['product_id'],
+                'quantity' => $quantity,
             ];
             $_SESSION['cart'] = [];
             $_SESSION['cart'][] = $product;

@@ -3,7 +3,7 @@
 include 'common.php';
 
 
-
+print_r($_SESSION['cart']);
 if (isset($_SESSION['cart'])) {
     if (count($_SESSION['cart']) !== 0) {
         $productIds = array_column($_SESSION['cart'], 'product_id');
@@ -33,6 +33,16 @@ if (isset($_SESSION['cart'])) {
             }
         }
     }
+    if (isset($_POST['update_quantity'])) {
+        foreach ($_SESSION['cart'] as $key => $value) {
+            if ($value['product_id'] === $_POST['product_id']) {
+                $quantity = intval($_POST['product_quantity']);
+                $_SESSION['cart'][$key]['quantity'] = $quantity;
+                header('Location: cart.php');
+                die;
+            }
+        }
+    }
 
     if (isset($_POST['checkout'])) {
         if (!preg_match("/^[a-zA-Z-']*$/", testInput($_POST['username']))) {
@@ -44,7 +54,8 @@ if (isset($_SESSION['cart'])) {
             $stmt = $conn->prepare($sql);
 
             foreach ($products as $product) {
-                $total = $total + $product['price'];
+                $found_key = array_search($product['id'], array_column($_SESSION['cart'], 'product_id'));
+                $total = $total + $product['price'] *  $_SESSION['cart'][$found_key]['quantity'];
             }
 
             $sql = 'INSERT INTO `orders` (user_name, details, comments, total, order_date) VALUES(?, ?, ?, ?, ?)';
@@ -52,12 +63,14 @@ if (isset($_SESSION['cart'])) {
             $stmt->execute([$_POST['username'], $_POST['details'], $_POST['comments'], $total, $orderDate]);
             $id = $conn->lastInsertId();
 
-            $sql2 = 'INSERT INTO `users_orders` (order_id, product_id,product_price) VALUES(?, ?, ?)';
+            $sql2 = 'INSERT INTO `users_orders` (order_id, product_id, quantity, product_price) VALUES(?, ?, ?, ?)';
             $stmt2 = $conn->prepare($sql2);
             foreach ($products as $product) {
                 $productId = $product['id'];
                 $productPrice = $product['price'];
-                $stmt2->execute([$id, $productId, $productPrice]);
+                $found_key = array_search($product['id'], array_column($_SESSION['cart'], 'product_id'));
+                $quantity = $_SESSION['cart'][$found_key]['quantity'];
+                $stmt2->execute([$id, $productId, $quantity, $productPrice]);
             }
 
             $emailTo = SHOP_MANAGER;
@@ -70,7 +83,8 @@ if (isset($_SESSION['cart'])) {
                 "{ORDER_DETAILS}" => testInput($_POST['details']),
                 "{ORDER_COMMENTS}" => testInput($_POST['comments']),
                 "{USER_NAME}" => testInput($_POST['username']),
-                "{ORDER_DATE}" => $orderDate
+                "{ORDER_DATE}" => $orderDate,
+                "{ORDER_TOTAL}" => $total,
             ];
 
             ob_start();
@@ -124,6 +138,16 @@ if (isset($_SESSION['cart'])) {
                                             <li><?= translate('product_description') ?>: <?= $product['description'] ?></li>
                                             <li><?= translate('product_price') ?>: <?= $product['price'] ?>$ </li>
                                         </ul>
+                                    </div>
+                                    <div class="removebutton">
+                                        <form action="cart.php" method="POST">
+                                        <?php $found_key = array_search($product['id'], array_column($_SESSION['cart'], 'product_id'));?>
+                                            <input type="number" name="product_quantity" value="<?= $_SESSION['cart'][$found_key]['quantity'] ?>" min="1">
+                                            <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                                            <button type="submit" name="update_quantity"><?= translate('update') ?></button>
+                                           
+                                           
+                                        </form>
                                     </div>
                                     <div class="removebutton">
                                         <form action="cart.php" method="POST">
