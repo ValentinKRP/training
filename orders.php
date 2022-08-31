@@ -37,16 +37,11 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <div class="proddetails">
                             <ul>
                                 <li><?= translate('order_details') ?>: <?= $order['details'] ?></li>
-                                <li><?= translate('order_price') ?>: <?= $order['price'] ?></li>
+                                <li><?= translate('order_price') ?>: <?= $order['total'] ?></li>
                                 <li><?= translate('order_date') ?>: <?= $order['order_date'] ?> </li>
                             </ul>
                         </div>
-                        <form action="order.php?id=<?= $order['id'] ?>" method="POST">
-                            <div class="viewbutton">
-                                <button type="submit" name="view"><?= translate('view') ?></button>
-                                <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
-                            </div>
-                        </form>
+                        <a href="order.php?id=<?= $order['id'] ?>" class="button"><?= translate('view') ?></a>
                     </div>
                 </li>
             <?php endforeach; ?>

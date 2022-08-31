@@ -86,3 +86,10 @@ object-fit:fit;
     width: 50%;
     align-items: center;
 }
+a.button{
+    color: white;
+    padding-left: 2px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}

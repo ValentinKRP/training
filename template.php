@@ -36,7 +36,7 @@ if (isset($_SESSION['cart'])) {
                 </div>
                 <div class="proddetails">
                     <ul>
-                         <?= $found_key = array_search($product['id'], array_column($_SESSION['cart'], 'product_id'));?>
+                         <?php $found_key = array_search($product['id'], array_column($_SESSION['cart'], 'product_id')); ?>
                         <li><?= translate('product_title') ?>: <?= $product['title'] ?></li>
                         <li><?= translate('product_description') ?>: <?= $product['description'] ?></li>
                         <li><?= translate('product_price') ?>: <?= $product['price'] ?>$ </li>

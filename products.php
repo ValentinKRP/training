@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 1) {
 $conn = connectDB();
 $stmt = $conn->prepare('SELECT * from products');
 $stmt->execute();
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset($_POST['delete'])) {
     $id = $_POST['product_id'];
@@ -41,34 +41,28 @@ if (isset($_POST['delete'])) {
 
     <div class="container">
         <ul class="proditems">
-            <?php foreach ($result as $r) : ?>
+            <?php foreach ($products as $product) : ?>
                 <li>
 
                     <div class="proditem">
                         <div class="prodimage">
-                            <img src="uploads/<?= $r['product_image'] ?>">
+                            <img src="uploads/<?= $product['product_image'] ?>">
                         </div>
                         <div class="proddetails">
                             <ul>
-                                <li><?= translate('product_title') ?>: <?= $r['title'] ?></li>
-                                <li><?= translate('product_description') ?>: <?= $r['description'] ?></li>
-                                <li><?= translate('product_price') ?>: <?= $r['price'] ?>$ </li>
+                                <li><?= translate('product_title') ?>: <?= $product['title'] ?></li>
+                                <li><?= translate('product_description') ?>: <?= $product['description'] ?></li>
+                                <li><?= translate('product_price') ?>: <?= $product['price'] ?>$ </li>
                             </ul>
                         </div>
                         <form action="products.php" method="POST">
                             <div class="removebutton">
                                 <button type="submit" name="delete"><?= translate('delete') ?></button>
-                                <input type="hidden" name="product_id" value="<?= $r['product_id'] ?>">
+                                <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
 
                             </div>
                         </form>
-                        <form action="product.php?id=<?= $r['product_id'] ?>" method="POST">
-                            <div class="editbutton">
-                                <button type="submit" name="edit"><?= translate('edit') ?></button>
-                                <input type="hidden" name="product_id" value="<?= $r['product_id'] ?>">
-
-                            </div>
-                        </form>
+                        <a href="product.php?id=<?= $product['id'] ?>" class="button"><?= translate('edit') ?></a>
 
                     </div>
 

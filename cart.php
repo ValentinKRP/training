@@ -2,8 +2,6 @@
 
 include 'common.php';
 
-
-print_r($_SESSION['cart']);
 if (isset($_SESSION['cart'])) {
     if (count($_SESSION['cart']) !== 0) {
         $productIds = array_column($_SESSION['cart'], 'product_id');
@@ -55,7 +53,7 @@ if (isset($_SESSION['cart'])) {
 
             foreach ($products as $product) {
                 $found_key = array_search($product['id'], array_column($_SESSION['cart'], 'product_id'));
-                $total = $total + $product['price'] *  $_SESSION['cart'][$found_key]['quantity'];
+                $total += $product['price'] * $_SESSION['cart'][$found_key]['quantity'];
             }
 
             $sql = 'INSERT INTO `orders` (user_name, details, comments, total, order_date) VALUES(?, ?, ?, ?, ?)';
@@ -97,10 +95,10 @@ if (isset($_SESSION['cart'])) {
                 }
             }
 
-             mail($emailTo, $subject, $message, $headers);
+            mail($emailTo, $subject, $message, $headers);
 
             unset($_SESSION['cart']);
-            header('Location: index.php');
+            header('Location: order.php?id=' . $id . '');
             die;
         }
     }
@@ -145,8 +143,6 @@ if (isset($_SESSION['cart'])) {
                                             <input type="number" name="product_quantity" value="<?= $_SESSION['cart'][$found_key]['quantity'] ?>" min="1">
                                             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
                                             <button type="submit" name="update_quantity"><?= translate('update') ?></button>
-                                           
-                                           
                                         </form>
                                     </div>
                                     <div class="removebutton">

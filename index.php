@@ -3,9 +3,7 @@
 include 'common.php';
 
 $conn = connectDB();
-if (isset($_SESSION['user_role'])) {
-    print_r($_SESSION['user_role']);
-}
+
 if (isset($_SESSION['cart'])) {
     if (count($_SESSION['cart']) !== 0) {
         $productIds = array_column($_SESSION['cart'], 'product_id');

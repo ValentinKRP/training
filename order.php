@@ -26,6 +26,7 @@ if (isset($_GET['id'])) {
         $stmt->execute([$values['product_id']]);
         $orderItem = $stmt->fetch(PDO::FETCH_ASSOC);
         $orderItem['price'] = $values['product_price'];
+        $orderItem['quantity'] = $values['quantity'];
         $orderProducts[] = $orderItem;
     }
 }
@@ -46,8 +47,9 @@ if (isset($_GET['id'])) {
 
 <body>
     <div class="container">
-        <h3><?= translate('order_id') ?> :<?= $order['id'] ?></h1>
-            <h3><?= translate('order_client') ?> : <?= $order['user_name'] ?></h1>
+        <h3><?= translate('order_id') ?> :<?= $order['id'] ?></h3>
+        <h3><?= translate('order_client') ?> : <?= $order['user_name'] ?></h3>
+        <h3><?= translate('order_price') ?> : <?= $order['total'] ?>$</h3>
                 <ul class="proditems">
                     <?php foreach ($orderProducts as $product) : ?>
                         <li>
@@ -60,6 +62,7 @@ if (isset($_GET['id'])) {
                                         <li><?= translate('product_title') ?>: <?= $product['title'] ?></li>
                                         <li><?= translate('product_description') ?>: <?= $product['description'] ?></li>
                                         <li><?= translate('product_price') ?>: <?= $product['price'] ?>$ </li>
+                                        <li><?= translate('quantity') ?>: <?= $product['quantity'] ?> </li>
                                     </ul>
                                 </div>
                             </div>
