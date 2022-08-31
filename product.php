@@ -129,15 +129,11 @@ if (isset($_POST['add_product'])) {
 
 <body>
     <div class="container">
-        <h2> <?= isset($_POST['edit']) ? translate('edit') : translate('add') ?></h2>
+        <h2> <?= isset($_GET['id']) ? translate('edit') : translate('add') ?></h2>
 
         <hr>
-        <?php if (isset($_GET['id'])) : ?>
-            <form action="product.php?id=<?= $_GET['id']  ?>" method="POST" enctype="multipart/form-data">
-        <?php else : ?>
-                <form action="product.php" method="POST" enctype="multipart/form-data">
-
-        <?php endif; ?>
+    
+            <form action="product.php<?= isset($_GET['id']) ? '?id=' . $_GET['id'] . '' : '' ?>" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for=""><?= translate('product_name') ?> </label>
                     <input type="text" name="product_name" placeholder="product name" 
@@ -146,7 +142,7 @@ if (isset($_POST['add_product'])) {
                     <?php endif; ?> 
                     <?php if (isset($_SESSION['product_name'])) :
                         ?> value="<?= $_SESSION['product_name'] ?>" <?php
-                    endif; ?> required>
+                    endif; ?> >
 
                 </div>
                 <div class="form-group">
@@ -157,7 +153,7 @@ if (isset($_POST['add_product'])) {
                      <?php endif; ?> 
                     <?php if (isset($_SESSION['product_desc'])) : ?>
                          value="<?= $_SESSION['product_desc'] ?>"
-                    <?php endif; ?> required>
+                    <?php endif; ?> >
                 </div>
                 <div class="form-group">
                     <label for=""><?= translate('product_price') ?>: </label>
@@ -167,7 +163,7 @@ if (isset($_POST['add_product'])) {
                     <?php endif; ?>
                      <?php if (isset($_SESSION['product_price'])) :?> 
                      value="<?= $_SESSION['product_price'] ?>" 
-                     <?php endif; ?> required>
+                     <?php endif; ?> >
                 </div>
                 <div class="form-group">
                     <label><?= translate('product_image') ?>: </label>

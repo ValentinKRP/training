@@ -2,10 +2,6 @@
 
 include 'common.php';
 
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] != 1) {
-    exit('You are not administrator');
-}
-
 $conn = connectDB();
 
 if (isset($_GET['id'])) {
@@ -49,7 +45,7 @@ if (isset($_GET['id'])) {
     <div class="container">
         <h3><?= translate('order_id') ?> :<?= $order['id'] ?></h3>
         <h3><?= translate('order_client') ?> : <?= $order['user_name'] ?></h3>
-        <h3><?= translate('order_price') ?> : <?= $order['total'] ?>$</h3>
+        <h3><?= translate('order_price') ?> : <?= $order['total'] ?> $</h3>
                 <ul class="proditems">
                     <?php foreach ($orderProducts as $product) : ?>
                         <li>

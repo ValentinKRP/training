@@ -5,7 +5,7 @@ include_once 'common.php';
 $conn = connectDB();
 $orderProducts = [];
 if (isset($_SESSION['cart'])) {
-        $productIds = array_column($_SESSION['cart'], 'product_id');
+        $productIds = array_keys($_SESSION['cart']);
         $products = [];
         $excludeIds = array_values($productIds);
         $count = count($excludeIds);
@@ -36,11 +36,10 @@ if (isset($_SESSION['cart'])) {
                 </div>
                 <div class="proddetails">
                     <ul>
-                         <?php $found_key = array_search($product['id'], array_column($_SESSION['cart'], 'product_id')); ?>
                         <li><?= translate('product_title') ?>: <?= $product['title'] ?></li>
                         <li><?= translate('product_description') ?>: <?= $product['description'] ?></li>
                         <li><?= translate('product_price') ?>: <?= $product['price'] ?>$ </li>
-                        <li><?= translate('quantity') ?>: <?= $_SESSION['cart'][$found_key]['quantity'] ?></li>
+                        <li><?= translate('quantity') ?>: <?= $_SESSION['cart'][$product['id']]?></li>
                     </ul>
                 </div>
         <?php endforeach; ?>

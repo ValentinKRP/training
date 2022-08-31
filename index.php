@@ -6,7 +6,7 @@ $conn = connectDB();
 
 if (isset($_SESSION['cart'])) {
     if (count($_SESSION['cart']) !== 0) {
-        $productIds = array_column($_SESSION['cart'], 'product_id');
+        $productIds = array_keys($_SESSION['cart']);
         $products = [];
         $excludeIds = array_values($productIds);
         $count = count($excludeIds);
@@ -33,11 +33,7 @@ if (isset($_SESSION['cart'])) {
     ) {
             $count = count($_SESSION['cart']);
             $quantity = 1;
-            $product = [
-                'product_id' => $_POST['product_id'],
-                'quantity' => $quantity,
-            ];
-            $_SESSION['cart'][] = $product;
+            $_SESSION['cart'][$_POST['product_id']] = $quantity;
             header('Location: index.php');
             die;
     }
@@ -48,12 +44,8 @@ if (isset($_SESSION['cart'])) {
 
     if (isset($_POST['add'])) {
             $quantity = 1;
-            $product = [
-                'product_id' => $_POST['product_id'],
-                'quantity' => $quantity,
-            ];
             $_SESSION['cart'] = [];
-            $_SESSION['cart'][] = $product;
+            $_SESSION['cart'][$_POST['product_id']] = $quantity;
             header('Location: index.php');
             die;
     }

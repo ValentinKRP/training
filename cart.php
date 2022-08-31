@@ -2,9 +2,11 @@
 
 include 'common.php';
 
+print_r($_SESSION['cart']);
+
 if (isset($_SESSION['cart'])) {
     if (count($_SESSION['cart']) !== 0) {
-        $productIds = array_column($_SESSION['cart'], 'product_id');
+        $productIds = array_keys($_SESSION['cart']);
         $products = [];
         $excludeIds = array_values($productIds);
         $count = count($excludeIds);
@@ -22,24 +24,14 @@ if (isset($_SESSION['cart'])) {
     }
 
     if (isset($_POST['remove'])) {
-        foreach ($_SESSION['cart'] as $key => $value) {
-            if ($value['product_id'] === $_POST['product_id']) {
-                unset($_SESSION['cart'][$key]);
-                unset($productIds[$key]);
-                header('Location: cart.php');
-                die;
-            }
-        }
+        unset($_SESSION['cart'][$_POST['product_id']]);
+        header('Location: cart.php');
+        die;
     }
     if (isset($_POST['update_quantity'])) {
-        foreach ($_SESSION['cart'] as $key => $value) {
-            if ($value['product_id'] === $_POST['product_id']) {
-                $quantity = intval($_POST['product_quantity']);
-                $_SESSION['cart'][$key]['quantity'] = $quantity;
-                header('Location: cart.php');
-                die;
-            }
-        }
+            $_SESSION['cart'][$_POST['product_id']] = $_POST['product_quantity'];
+            header('Location: cart.php');
+            die;
     }
 
     if (isset($_POST['checkout'])) {
@@ -52,8 +44,7 @@ if (isset($_SESSION['cart'])) {
             $stmt = $conn->prepare($sql);
 
             foreach ($products as $product) {
-                $found_key = array_search($product['id'], array_column($_SESSION['cart'], 'product_id'));
-                $total += $product['price'] * $_SESSION['cart'][$found_key]['quantity'];
+                $total += $product['price'] * $_SESSION['cart'][$product['id']];
             }
 
             $sql = 'INSERT INTO `orders` (user_name, details, comments, total, order_date) VALUES(?, ?, ?, ?, ?)';
@@ -66,8 +57,7 @@ if (isset($_SESSION['cart'])) {
             foreach ($products as $product) {
                 $productId = $product['id'];
                 $productPrice = $product['price'];
-                $found_key = array_search($product['id'], array_column($_SESSION['cart'], 'product_id'));
-                $quantity = $_SESSION['cart'][$found_key]['quantity'];
+                $quantity = $_SESSION['cart'][$product['id']];
                 $stmt2->execute([$id, $productId, $quantity, $productPrice]);
             }
 
@@ -139,8 +129,7 @@ if (isset($_SESSION['cart'])) {
                                     </div>
                                     <div class="removebutton">
                                         <form action="cart.php" method="POST">
-                                        <?php $found_key = array_search($product['id'], array_column($_SESSION['cart'], 'product_id'));?>
-                                            <input type="number" name="product_quantity" value="<?= $_SESSION['cart'][$found_key]['quantity'] ?>" min="1">
+                                            <input type="number" name="product_quantity" value="<?= $_SESSION['cart'][$product['id']] ?>" min="1">
                                             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
                                             <button type="submit" name="update_quantity"><?= translate('update') ?></button>
                                         </form>
