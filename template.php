@@ -41,7 +41,6 @@ if (isset($_SESSION['cart'])) {
                         <li><?= translate('product_description') ?>: <?= $product['description'] ?></li>
                         <li><?= translate('product_price') ?>: <?= $product['price'] ?>$ </li>
                         <li><?= translate('quantity') ?>: <?= $_SESSION['cart'][$found_key]['quantity'] ?></li>
-                       
                     </ul>
                 </div>
         <?php endforeach; ?>

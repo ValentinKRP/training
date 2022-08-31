@@ -59,7 +59,6 @@ if (isset($_POST['delete'])) {
                             <div class="removebutton">
                                 <button type="submit" name="delete"><?= translate('delete') ?></button>
                                 <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-
                             </div>
                         </form>
                         <a href="product.php?id=<?= $product['id'] ?>" class="button"><?= translate('edit') ?></a>
