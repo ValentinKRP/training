@@ -92,6 +92,9 @@ if (isset($_SESSION['cart'])) {
             <?php endforeach; ?>
         </ul>
         <a href="cart.php"><?= translate('cart') ?></a>
+        <?php if ($_SESSION['user_role'] = 1) : ?>
+            <a href="products.php"><?= translate('navigate_products') ?></a>
+        <?php endif; ?>
     </div>
 </body>
 

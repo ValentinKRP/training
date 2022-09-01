@@ -4,6 +4,8 @@ require 'config.php';
 
 session_start();
 
+$lang = detectLanguage();
+include "languages/$lang.php";
 
 function connectDB()
 {
@@ -47,8 +49,6 @@ function testInput($data)
 
 function translate($label)
 {
-    $lang = detectLanguage();
-    include "languages/$lang.php";
-
+    global $lang;
     return $lang[$label];
 }

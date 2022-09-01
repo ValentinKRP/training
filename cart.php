@@ -2,7 +2,15 @@
 
 include 'common.php';
 
-print_r($_SESSION['cart']);
+if (isset($_POST['username'])) {
+    $_SESSION['name'] = $_POST['username'];
+}
+if (isset($_POST['details'])) {
+    $_SESSION['details'] = $_POST['details'];
+}
+if (isset($_POST['comments'])) {
+    $_SESSION['comments'] = $_POST['comments'];
+}
 
 if (isset($_SESSION['cart'])) {
     if (count($_SESSION['cart']) !== 0) {
@@ -35,9 +43,16 @@ if (isset($_SESSION['cart'])) {
     }
 
     if (isset($_POST['checkout'])) {
-        if (!preg_match("/^[a-zA-Z-']*$/", testInput($_POST['username']))) {
-            $usernameError = 'Enter a valid name';
-        } else {
+        if (!preg_match("/^[a-zA-Z-']*$/", testInput($_POST['username'])) || empty($_POST['username'])) {
+            $usernameError = 'ok';
+        }
+        if (empty($_POST['details'])) {
+            $detailsError = 'ok';
+        }
+        if (empty($_POST['comments'])) {
+            $commentsError = 'ok';
+        }
+        if (!isset($usernameError) && !isset($detailsError) && !isset($commentsError)) {
             $total = 0;
             $orderDate = date('Y-m-d h:i:sa');
             $sql = 'SELECT * FROM `products` WHERE id=? ';
@@ -55,10 +70,10 @@ if (isset($_SESSION['cart'])) {
             $sql2 = 'INSERT INTO `users_orders` (order_id, product_id, quantity, product_price) VALUES(?, ?, ?, ?)';
             $stmt2 = $conn->prepare($sql2);
             foreach ($products as $product) {
-                $productId = $product['id'];
-                $productPrice = $product['price'];
-                $quantity = $_SESSION['cart'][$product['id']];
-                $stmt2->execute([$id, $productId, $quantity, $productPrice]);
+                    $productId = $product['id'];
+                    $productPrice = $product['price'];
+                    $quantity = $_SESSION['cart'][$product['id']];
+                    $stmt2->execute([$id, $productId, $quantity, $productPrice]);
             }
 
             $emailTo = SHOP_MANAGER;
@@ -73,7 +88,7 @@ if (isset($_SESSION['cart'])) {
                 "{USER_NAME}" => testInput($_POST['username']),
                 "{ORDER_DATE}" => $orderDate,
                 "{ORDER_TOTAL}" => $total,
-            ];
+                ];
 
             ob_start();
             include 'template.php';
@@ -88,6 +103,9 @@ if (isset($_SESSION['cart'])) {
             mail($emailTo, $subject, $message, $headers);
 
             unset($_SESSION['cart']);
+            unset($_SESSION['name']);
+            unset($_SESSION['details']);
+            unset($_SESSION['comments']);
             header('Location: order.php?id=' . $id . '');
             die;
         }
@@ -148,16 +166,27 @@ if (isset($_SESSION['cart'])) {
             <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) != 0) : ?>
                 <div class="inputs">
                     <form action="cart.php" method="POST">
-                        <input type="text" name="username" placeholder="<?= translate('order_client') ?>" required>
+                        <label><?= translate('name') ?> </label>
+                        <input type="text" name="username" value="<?= isset($_SESSION['name']) ? $_SESSION['name']  : ''  ?>">
                         <br>
                         <?php if (isset($usernameError)) : ?>
-                            <span style="color:red;"><?=  translate('username_error') ?></span>
+                            <span class="errors"><?=  translate('user_error') ?></span>
                             <br>
                         <?php endif; ?>
-                        <input type="text" name="details" size="50" placeholder="<?= translate('order_details') ?>" required>
+                        <label><?= translate('order_details') ?> </label>
+                        <input type="text" name="details" size="50" value="<?= isset($_SESSION['details']) ? $_SESSION['details']  : ''  ?>">
                         <br>
-                        <input type="text" name="comments" size="50" placeholder="<?= translate('order_comments') ?>">
+                        <?php if (isset($detailsError)) : ?>
+                            <span class="errors"><?=  translate('details_error') ?></span>
+                            <br>
+                        <?php endif; ?>
+                        <label><?= translate('order_comments') ?> </label>
+                        <input type="text" name="comments" size="50" value="<?= isset($_SESSION['comments']) ? $_SESSION['comments']  : ''  ?>">
                         <br>
+                        <?php if (isset($commentsError)) : ?>
+                            <span class="errors"><?=  translate('comments_error') ?></span>
+                            <br>
+                        <?php endif; ?>
                         <button type="submit" name="checkout"><?= translate('checkout') ?></button>
                     </form>
                 </div>

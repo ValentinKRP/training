@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($userData['password'] == $password) {
                 $_SESSION['user_role'] = $userData['admin'];
 
-                header('Location: index.php');
+                header('Location: products.php');
                 die;
             }
         } else {

@@ -32,7 +32,7 @@ if (isset($_SESSION['cart'])) {
         <?php foreach ($products as $product) : ?>
             <div class="proditem">
                 <div class="prodimage">
-                    <img style="width:50px; height:50px;" src="http://localhost/training/uploads/<?= $product['product_image'] ?>">
+                    <img class="templateimg" src="http://localhost/training/uploads/<?= $product['product_image'] ?>">
                 </div>
                 <div class="proddetails">
                     <ul>

@@ -74,6 +74,12 @@ if (isset($_POST['delete'])) {
         <div class="addbutton">
             <a href="product.php"><?= translate('add_product') ?></a>
         </div>
+        <div class="addbutton">
+            <a href="orders.php"><?= translate('navigate_orders') ?></a>
+        </div>
+        <div class="addbutton">
+            <a href="index.php"><?= translate('navigate_index') ?></a>
+        </div>
     </div>
     <script>
 

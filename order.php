@@ -65,7 +65,7 @@ if (isset($_GET['id'])) {
                         </li>
                     <?php endforeach; ?>
                 </ul>
-                <a href="orders.php"><?= translate('navigate_orders') ?></a>
+                <a href="index.php"><?= translate('navigate_index') ?></a>
     </div>
 </body>
 

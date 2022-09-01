@@ -26,6 +26,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <body>
     <h1><?= translate('order') ?></h1>
+    <a href="products.php"><?= translate('navigate_products') ?></a>
     <div class="container">
         <ul class="proditems">
             <?php foreach ($orders as $order) : ?>
