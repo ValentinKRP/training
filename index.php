@@ -52,19 +52,9 @@ if (isset($_SESSION['cart'])) {
 }
 
 
+require 'header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <link href="style.css" rel="stylesheet">
-    <title><?= translate('title') ?></title>
-</head>
-
-<body>
     <h1><?= translate('title') ?></h1>
     <div class="container">
         <ul class="proditems">
@@ -92,10 +82,9 @@ if (isset($_SESSION['cart'])) {
             <?php endforeach; ?>
         </ul>
         <a href="cart.php"><?= translate('cart') ?></a>
+        <a href="login.php"><?= translate('login') ?></a>
         <?php if ($_SESSION['user_role'] = 1) : ?>
             <a href="products.php"><?= translate('navigate_products') ?></a>
         <?php endif; ?>
     </div>
-</body>
-
-</html>
+<?php require 'footer.php' ?>

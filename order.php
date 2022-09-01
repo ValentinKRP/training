@@ -27,21 +27,10 @@ if (isset($_GET['id'])) {
     }
 }
 
+require 'header.php'
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css" rel="stylesheet">
-    <title><?= translate('title') ?></title>
-
-</head>
-
-<body>
     <div class="container">
         <h3><?= translate('order_id') ?> :<?= $order['id'] ?></h3>
         <h3><?= translate('order_client') ?> : <?= $order['user_name'] ?></h3>
@@ -66,7 +55,8 @@ if (isset($_GET['id'])) {
                     <?php endforeach; ?>
                 </ul>
                 <a href="index.php"><?= translate('navigate_index') ?></a>
+                <?php if ($_SESSION['user_role'] = 1) : ?>
+                     <a href="orders.php"><?= translate('navigate_orders') ?></a>
+                <?php endif; ?>
     </div>
-</body>
-
-</html>
+<?php require 'footer.php'; ?>

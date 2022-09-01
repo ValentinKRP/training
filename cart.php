@@ -114,18 +114,9 @@ if (isset($_SESSION['cart'])) {
     $products = [];
 }
 
+require 'header.php';
+
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <link href="style.css" rel="stylesheet">
-    <title><?= translate('title') ?></title>
-</head>
-
 <body>
     <h1><?= translate('cart_title') ?></h1>
     <div class="container">
@@ -196,6 +187,4 @@ if (isset($_SESSION['cart'])) {
             <a href="index.php"><?= translate('index') ?></a>
         </div>
     </div>
-</body>
-
-</html>
+<?php require 'footer.php' ?>

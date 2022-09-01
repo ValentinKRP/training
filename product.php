@@ -139,20 +139,10 @@ if (isset($_POST['add_product'])) {
     }
 }
 
+require 'header.php';
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css" rel="stylesheet">
-    <title><?= translate('title') ?></title>
-</head>
-
-<body>
     <div class="container">
         <h2> <?= isset($_GET['id']) ? translate('edit') : translate('add') ?></h2>
 
@@ -161,13 +151,12 @@ if (isset($_POST['add_product'])) {
             <form action="product.php<?= isset($_GET['id']) ? '?id=' . $_GET['id'] . '' : '' ?>" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label><?= translate('product_name') ?> </label>
-                    <input type="text" name="product_name"
-                    <?php if (isset($_SESSION['product_name'])) :
-                        ?> value="<?= $_SESSION['product_name'] ?>" 
-                    <?php endif; ?>
-                    <?php if (isset($_GET['id'])) :
-                        ?> value="<?= $product['title'] ?>" 
-                    <?php endif; ?>>
+                    <input type="text" name="product_name" 
+                     <?php if (isset($_SESSION['product_name'])) :?> 
+                            value="<?= $_SESSION['product_name'] ?>"
+                     <?php elseif (isset($_GET['id'])) : ?> 
+                             value="<?= $product['title'] ?>" 
+                     <?php endif; ?>>
                     <?php if (isset($productNameError)) : ?>
                             <br>
                             <span class="errors"><?=  translate('product_name_error') ?></span>
@@ -177,12 +166,11 @@ if (isset($_POST['add_product'])) {
                 <div class="form-group">
                     <label><?= translate('product_description') ?>: </label>
                     <input type="text" name="product_desc"
-                    <?php if (isset($_SESSION['product_desc'])) : ?>
-                         value="<?= $_SESSION['product_desc'] ?>"
-                    <?php endif; ?> 
-                    <?php if (isset($_GET['id'])) :?> 
-                        value="<?= $product['description'] ?>" 
-                    <?php endif; ?> >
+                     <?php if (isset($_SESSION['product_desc'])) :?> 
+                            value="<?= $_SESSION['product_desc'] ?>"
+                     <?php elseif (isset($_GET['id'])) : ?> 
+                            value="<?= $product['description'] ?>" 
+                     <?php endif; ?>>
                     <?php if (isset($productDescError)) : ?>
                             <br>
                             <span class="errors"><?=  translate('product_details_error') ?></span>
@@ -193,11 +181,11 @@ if (isset($_POST['add_product'])) {
                 <div class="form-group">
                     <label><?= translate('product_price') ?>: </label>
                     <input type="number" name="product_price" 
+                    value=
                      <?php if (isset($_SESSION['product_price'])) :?> 
-                     value="<?= $_SESSION['product_price'] ?>" 
-                     <?php endif; ?> 
-                     <?php if (isset($_GET['id'])) : ?> 
-                        value="<?= $product['price'] ?>" 
+                            <?= $_SESSION['product_price'] ?>
+                     <?php elseif (isset($_GET['id'])) : ?> 
+                             <?= $product['price'] ?> 
                      <?php endif; ?>>
                      <?php if (isset($productPriceError)) : ?>
                             <br>
@@ -232,6 +220,4 @@ if (isset($_POST['add_product'])) {
                 </form>
 
     </div>
-</body>
-
-</html>
+<?php require 'footer.php'; ?>

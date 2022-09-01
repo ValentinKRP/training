@@ -11,20 +11,9 @@ $stmt = $conn->prepare('SELECT * FROM orders');
 $stmt->execute();
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+require 'header.php';
+
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css" rel="stylesheet">
-    <title><?= translate('title') ?></title>
-</head>
-
-<body>
     <h1><?= translate('order') ?></h1>
     <a href="products.php"><?= translate('navigate_products') ?></a>
     <div class="container">
@@ -49,6 +38,4 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </ul>
     </div>
 
-</body>
-
-</html>
+<?php require 'footer.php'; ?>
